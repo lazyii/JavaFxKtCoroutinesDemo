@@ -1,17 +1,14 @@
 package org.beryx.jlink.test.kotlin
 
 import javafx.application.Application
-import javafx.application.Platform
 import javafx.beans.property.SimpleStringProperty
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.time.LocalDate
+import org.rainday.avaj.mvvm.StarterApplication
 import java.time.LocalDateTime
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.ThreadLocalRandom
 
 
 /**
@@ -20,7 +17,7 @@ import java.util.concurrent.ThreadLocalRandom
  * @version 1.0 edit by wyd at 2021-07-10 13:16:47
  */
 fun main(vararg args: String) {
-    Application.launch(JavaFX::class.java, *args)
+    Application.launch(StarterApplication::class.java, *args)
 }
 
 val userNameProperty = SimpleStringProperty("userNameProperty")
