@@ -2,10 +2,14 @@ package org.beryx.jlink.test.kotlin
 
 import javafx.application.Application
 import javafx.application.Platform
+import javafx.beans.property.SimpleStringProperty
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ThreadLocalRandom
 
@@ -19,12 +23,14 @@ fun main(vararg args: String) {
     Application.launch(JavaFX::class.java, *args)
 }
 
-val ds = 100
+val userNameProperty = SimpleStringProperty("userNameProperty")
 
 val btnHandler: EventHandler<ActionEvent> = EventHandler {
     GlobalScope.launch {
         println(this)
         println("click")
+        delay(1000)
+        userNameProperty.set("${LocalDateTime.now()}")
     }
 }
 

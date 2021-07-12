@@ -26,7 +26,8 @@ public class HelloWorldView implements Initializable {
         viewModel = new HelloWorldViewModel();
 
         helloLabel.textProperty().bindBidirectional(viewModel.helloMessageProperty());
-        userName.textProperty().bindBidirectional(viewModel.userNameProperty());
+        //userName.textProperty().bindBidirectional(viewModel.userNameProperty());
+        userName.textProperty().bindBidirectional(LauncherKt.getUserNameProperty());
         button.setOnAction(LauncherKt.getBtnHandler());
     }
 }

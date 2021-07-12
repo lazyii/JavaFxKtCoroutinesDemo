@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     kotlin("jvm") version "1.5.20"
     application
@@ -7,13 +5,13 @@ plugins {
     id("org.beryx.jlink") version "2.24.0"
 }
 
-//val compileKotlin: KotlinCompile by tasks
-//val compileJava: JavaCompile by tasks
-//compileJava.destinationDir = compileKotlin.destinationDir
-
+// because of this bug(https://youtrack.jetbrains.com/issue/KTIJ-18424),pls use gradlew run in console,instead of execute it in idea.
+// step 1: set JAVA_HOME="C:\Program Files\Java\jdk-16.0.1+9"
+// step 2: gradlew run
 application {
     mainModule.set("test.kotlin")
     mainClass.set("org.beryx.jlink.test.kotlin.JavaFX")
+    applicationDefaultJvmArgs = listOf("--add-reads", "kotlin.stdlib=kotlinx.coroutines.core.jvm")
 }
 
 repositories {
@@ -35,10 +33,29 @@ jlink{
     options.set(listOf("--strip-debug", "--compress", "2", "--no-header-files", "--no-man-pages"))
     mergedModuleName.set("org.merged.module")
     addExtraDependencies("javafx")
-    mergedModule {
-        additive = true
-    }
     launcher {
         name = "hello"
+    }
+}
+
+val JavaVersionCurrent = JavaVersion.VERSION_16
+tasks {
+    compileJava {
+        dependsOn(compileKotlin)
+        sourceCompatibility = JavaVersionCurrent.majorVersion
+        targetCompatibility = JavaVersionCurrent.majorVersion
+        //modularity.inferModulePath.set(true)
+    }
+    compileKotlin {
+        kotlinOptions {
+            sourceCompatibility = JavaVersionCurrent.majorVersion
+            targetCompatibility = JavaVersionCurrent.majorVersion
+            jvmTarget = JavaVersionCurrent.majorVersion
+            apiVersion = "1.5" // kotlin api version
+            languageVersion = "1.5" // kotlin language version
+        }
+    }
+    test {
+        useJUnitPlatform()
     }
 }
